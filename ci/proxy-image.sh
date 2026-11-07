@@ -55,7 +55,7 @@ platforms=(linux/amd64 linux/arm64 linux/ppc64le linux/s390x)
 windows_tags=(ltsc2022 ltsc2025)
 # The QEMU installer and the BuildKit image (pinned like every image of the CI; Renovate keeps both).
 binfmt_image=tonistiigi/binfmt@sha256:400a4873b838d1b89194d982c45e5fb3cda4593fbfd7e08a02e76b03b21166f0
-buildkit_image=moby/buildkit:v0.33.1@sha256:cec9f139f45e93c5c69c60f8b07cfad9f43f4ef6b6a6cd917527fea5ff2e3dea
+buildkit_image=moby/buildkit:v0.34.2@sha256:c5f8862f52499773af85bc07695b2379ef08e8002352b0df2c4864c91d78dabe
 
 sha=${CIRCLE_SHA1:-$(git rev-parse HEAD)}
 short=${sha:0:12}

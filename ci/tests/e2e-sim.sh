@@ -20,8 +20,8 @@ set -euo pipefail
 here=$(cd "$(dirname "$0")" && pwd)
 repo=$(cd "${here}/../.." && pwd)
 name="swarm-e2e-sim-$$"
-stock=${E2E_IMAGE:-cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a}
-dind=${E2E_SIM_DIND_IMAGE:-docker:29.9.0-dind@sha256:0b6d18a4a222e71c88be6034926b4f6cde2fc33c2218643d03ccfddc65995470}
+stock=${E2E_IMAGE:-cimg/base:2026.10@sha256:7dcf4c15fa0b8c919183b10623aee9444ba08c14eada03c25531aac972cde3ef}
+dind=${E2E_SIM_DIND_IMAGE:-docker:29.9.3-dind@sha256:08a98015fce594af7c382883bea080ea206de74402a95da9dc52b6428c8cd121}
 tmp=$(mktemp -d)
 failed=0
 

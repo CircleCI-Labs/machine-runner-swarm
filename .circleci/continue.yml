@@ -187,7 +187,7 @@ commands:
               docker run --rm -v "${HOME}/trivy:/trivy" -v /tmp/reports:/reports \
                 -v "${PWD}/.trivyignore:/work/.trivyignore:ro" -w /work \
                 -e TRIVY_NO_PROGRESS=true -e TRIVY_CACHE_DIR=/trivy/cache \
-                aquasec/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa "$@"
+                aquasec/trivy:0.76.2@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb "$@"
             }
             docker pull -q "<< parameters.base >>" > /dev/null
             docker save -o "${HOME}/trivy/image.tar" "<< parameters.image >>"
@@ -303,7 +303,7 @@ jobs:
 
   lint-yaml:
     docker:
-      - image: cimg/python:3.14.8@sha256:c1b9a8ca063b345dbed3453ed38ff2fda5a39d8ae51659bd3e962c303d47a66d
+      - image: cimg/python:3.15.2@sha256:c966fe6ae736ed438f9ba816ad192a19e040c4bd0e431c5942e87824691c735c
     resource_class: small
     steps:
       - checkout
@@ -324,7 +324,7 @@ jobs:
 
   lint-docs-mermaid:
     docker:
-      - image: minlag/mermaid-cli:12.0.1@sha256:2c5d27365df71da06c288beebe531ea3637cf9b422b871239a3b016233591d24
+      - image: minlag/mermaid-cli:12.0.1@sha256:18938e53497376d524e04b1fc0bf7b6d61a491ce9ff7032bb2855d57155acb10
     resource_class: medium
     shell: /bin/sh -eo pipefail
     steps:
@@ -351,7 +351,7 @@ jobs:
       docker stack config on every stack file (alone and merged: they must parse and interpolate), and every
       Swarm config of the stack files must be named after the content of its file (ci/config-names.sh).
     docker:
-      - image: docker:29.9.0-cli@sha256:1a4c7cb63513f349bdad01fcc6e0f3f2f67d37b9da86f14dc0d4a0942eecda00
+      - image: docker:29.9.3-cli@sha256:2357639ad1ea7d0194134bf3292622fd4e562483966ed674e5d7c945b5f3b28d
     resource_class: small
     steps:
       - checkout
@@ -639,7 +639,7 @@ jobs:
       token-proxy-image, environment docker-hub, version sha-<12> (ci/deploy-marker.sh, docs/ci.md "Deploys"). Without the credentials the
       job says that nothing was pushed, records no deploy, and passes, unless strict is true (a production main), where it fails.
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.10@sha256:7dcf4c15fa0b8c919183b10623aee9444ba08c14eada03c25531aac972cde3ef
     resource_class: small
     environment:
       PIPELINE_DEFINITION_ID: << pipeline.definition.id >>
@@ -684,7 +684,7 @@ jobs:
       another ref. It pushes nothing to Docker Hub and holds no secret. A change in CircleCI's token claims, in Sigstore or in the scripts fails a
       pull request, and the first merge to main is not the first real run.
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.10@sha256:7dcf4c15fa0b8c919183b10623aee9444ba08c14eada03c25531aac972cde3ef
       - image: registry:2@sha256:a3d8aaa63ed8681a604f1dea0aa03f100d5895b6a58ace528858a7b332415373   # the registry of the rehearsal, at localhost:5000
     resource_class: small
     environment:
@@ -706,7 +706,7 @@ jobs:
       edge is the image of an earlier commit that passed everything. It is not a requirement of the release, which does not need edge
       (lint-circleci lists it as optional).
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.10@sha256:7dcf4c15fa0b8c919183b10623aee9444ba08c14eada03c25531aac972cde3ef
     resource_class: small
     environment:
       PIPELINE_DEFINITION_ID: << pipeline.definition.id >>
@@ -800,7 +800,7 @@ jobs:
           command: docker run --rm --entrypoint psql swarm-ci/example:ci --version
       - trivy:
           image: swarm-ci/example:ci
-          base: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+          base: cimg/base:2026.10@sha256:7dcf4c15fa0b8c919183b10623aee9444ba08c14eada03c25531aac972cde3ef
           report: example
       - store_artifacts:
           path: /tmp/reports
@@ -1265,7 +1265,7 @@ jobs:
 
   lint-markdown:
     docker:
-      - image: davidanson/markdownlint-cli2:v0.18.1@sha256:173cb697a255a8a985f2c6a83b4f7a8b3c98f4fb382c71c45f1c52e4d4fed63a
+      - image: davidanson/markdownlint-cli2:v0.24.0@sha256:70ead7c0352d22d04bbe612cd96b54ec591538d8f4626cafe391bb2ecf3639ca
     resource_class: small
     steps:
       - checkout
@@ -1290,7 +1290,7 @@ jobs:
 
   lint-circleci:
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.10@sha256:7dcf4c15fa0b8c919183b10623aee9444ba08c14eada03c25531aac972cde3ef
     resource_class: small
     steps:
       - checkout
@@ -1398,7 +1398,7 @@ jobs:
       and builds nothing, so it needs no token. Runs only in the workflow security-scan.
     executor: linux-vm
     environment:
-      TRIVY_IMAGE: aquasec/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa
+      TRIVY_IMAGE: aquasec/trivy:0.76.2@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb
     steps:
       - checkout
       - run:
@@ -1474,7 +1474,7 @@ jobs:
       only for a push that has a pull request (the parameter pull-request). It is optional: the release does not wait for it (lint-circleci lists it),
       without the context or the variable it posts nothing, and a failed call never fails it.
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.10@sha256:7dcf4c15fa0b8c919183b10623aee9444ba08c14eada03c25531aac972cde3ef
     resource_class: small
     steps:
       - checkout
@@ -1534,7 +1534,7 @@ jobs:
       context scalable-machine-runner-dockerhub holds the credentials for the tags. A release publishes nothing without them, and on a production
       main (the parameter strict) a release that is due and cannot publish fails.
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.10@sha256:7dcf4c15fa0b8c919183b10623aee9444ba08c14eada03c25531aac972cde3ef
     resource_class: small
     environment:
       PIPELINE_DEFINITION_ID: << pipeline.definition.id >>
