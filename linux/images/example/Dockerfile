@@ -6,7 +6,7 @@
 #
 #   docker build -t registry.example.com/ci/linux-pg:1 linux/images/example
 #   # then, in linux/stack/runners.yaml:  image: registry.example.com/ci/linux-pg:1
-ARG BASE_IMAGE=cimg/base:2026.10
+ARG BASE_IMAGE=cimg/base:2026.11
 FROM ${BASE_IMAGE}
 USER 0
 # hadolint ignore=DL3008  # cimg images track Ubuntu; pin versions if you need exact reproducibility

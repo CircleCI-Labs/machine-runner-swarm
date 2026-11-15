@@ -36,7 +36,7 @@
 # Another class of your own is the service, network, secret and proxy entries of linux-default under another name (docs/resource-classes.md).
 #
 # Notes:
-# - Pin images by digest in production (image: cimg/base:2026.10@sha256:...). Tags such as 21.0 float.
+# - Pin images by digest in production (image: cimg/base:2026.11@sha256:...). Tags such as 21.0 float.
 # - Swarm ignores security_opt, privileged and short-form tmpfs, and its tmpfs is noexec, so none is used.
 # - Replicas of one class share an overlay network and can reach each other: Swarm cannot isolate them
 #   (enable_icc is ignored on swarm-scoped networks). Each class gets its own overlay, so classes cannot
@@ -122,7 +122,7 @@ x-runner: &runner
 services:
   linux-default:
     <<: *runner
-    image: cimg/base:2026.10
+    image: cimg/base:2026.11
     hostname: "{{.Node.Hostname}}-linux-default-{{.Task.Slot}}"
     environment:
       <<: *env

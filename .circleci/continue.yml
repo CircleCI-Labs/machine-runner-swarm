@@ -639,7 +639,7 @@ jobs:
       token-proxy-image, environment docker-hub, version sha-<12> (ci/deploy-marker.sh, docs/ci.md "Deploys"). Without the credentials the
       job says that nothing was pushed, records no deploy, and passes, unless strict is true (a production main), where it fails.
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01
     resource_class: small
     environment:
       PIPELINE_DEFINITION_ID: << pipeline.definition.id >>
@@ -684,7 +684,7 @@ jobs:
       another ref. It pushes nothing to Docker Hub and holds no secret. A change in CircleCI's token claims, in Sigstore or in the scripts fails a
       pull request, and the first merge to main is not the first real run.
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01
       - image: registry:2@sha256:a3d8aaa63ed8681a604f1dea0aa03f100d5895b6a58ace528858a7b332415373   # the registry of the rehearsal, at localhost:5000
     resource_class: small
     environment:
@@ -706,7 +706,7 @@ jobs:
       edge is the image of an earlier commit that passed everything. It is not a requirement of the release, which does not need edge
       (lint-circleci lists it as optional).
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01
     resource_class: small
     environment:
       PIPELINE_DEFINITION_ID: << pipeline.definition.id >>
@@ -800,7 +800,7 @@ jobs:
           command: docker run --rm --entrypoint psql swarm-ci/example:ci --version
       - trivy:
           image: swarm-ci/example:ci
-          base: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+          base: cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01
           report: example
       - store_artifacts:
           path: /tmp/reports
@@ -1290,7 +1290,7 @@ jobs:
 
   lint-circleci:
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01
     resource_class: small
     steps:
       - checkout
@@ -1474,7 +1474,7 @@ jobs:
       only for a push that has a pull request (the parameter pull-request). It is optional: the release does not wait for it (lint-circleci lists it),
       without the context or the variable it posts nothing, and a failed call never fails it.
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01
     resource_class: small
     steps:
       - checkout
@@ -1534,7 +1534,7 @@ jobs:
       context scalable-machine-runner-dockerhub holds the credentials for the tags. A release publishes nothing without them, and on a production
       main (the parameter strict) a release that is due and cannot publish fails.
     docker:
-      - image: cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a
+      - image: cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01
     resource_class: small
     environment:
       PIPELINE_DEFINITION_ID: << pipeline.definition.id >>

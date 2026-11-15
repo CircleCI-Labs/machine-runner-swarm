@@ -103,7 +103,7 @@ services:
 
   linux-hardened:
     <<: *runner
-    image: cimg/base:2026.10
+    image: cimg/base:2026.11
     hostname: "{{.Node.Hostname}}-linux-hardened-{{.Task.Slot}}"
     environment:
       <<: *env
