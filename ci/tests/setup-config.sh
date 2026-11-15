@@ -17,24 +17,6 @@ trap 'rm -rf "$tmp"' EXIT
 
 grep -q '<< pipeline.git.branch >>' "$config" || { echo "FAIL: no << pipeline.git.branch >> in $config"; exit 1; }
 
-smarter_orb_prod='cci-labs/smarter-workflows@0.1.0'
-smarter_orb_dev='cci-labs/smarter-workflows@dev:ef32f6096ef3fe745deb43a0547aceb6ae16267a'
-
-# config process needs the orb in the registry. Until v0.1.0 is published, swap in the dev orb
-# (docs/ci.md, "Smarter Workflows shadow mode").
-process_config() {
-  local in=$1 out=$2 params=$3
-  if "$cli" config process "$in" --pipeline-parameters "$params" > "$out" 2> "$tmp/err"; then
-    return 0
-  fi
-  if grep -q "Cannot find ${smarter_orb_prod}" "$tmp/err"; then
-    sed "s|${smarter_orb_prod}|${smarter_orb_dev}|g" "$in" > "$tmp/config-orb.yml"
-    "$cli" config process "$tmp/config-orb.yml" --pipeline-parameters "$params" > "$out" 2> "$tmp/err"
-    return $?
-  fi
-  return 1
-}
-
 failed=0
 rows=0
 # check BRANCH WORKFLOW CONTEXT E2E [SCAN [PIPELINE_PARAMETERS]]   (CONTEXT: the context of the setup job, or "none")
@@ -42,7 +24,7 @@ check() {
   local branch=$1 want_wf=$2 want_ctx=$3 want_e2e=$4 want_scan=${5:-false} params=${6:-"{}"} got_wf got_ctx got_e2e got_scan
   rows=$((rows + 1))
   sed "s|<< pipeline.git.branch >>|${branch}|g" "$config" > "$tmp/config.yml"
-  process_config "$tmp/config.yml" "$tmp/compiled.yml" "$params" || { echo "FAIL ${branch}: config process failed"; cat "$tmp/err"; failed=$((failed + 1)); return; }
+  "$cli" config process "$tmp/config.yml" --pipeline-parameters "$params" > "$tmp/compiled.yml" 2> "$tmp/err" || { echo "FAIL ${branch}: config process failed"; cat "$tmp/err"; failed=$((failed + 1)); return; }
   yq -o=json '.' "$tmp/compiled.yml" > "$tmp/compiled.json"
   got_wf=$(jq -r '[.workflows | del(.version) | keys[]] | join(",")' "$tmp/compiled.json")
   got_ctx=$(jq -r '[.workflows | del(.version) | .[] | .jobs[] | if type == "object" then to_entries[0].value.context // empty else empty end | if type == "array" then .[] else . end] | unique | if length == 0 then "none" else join(",") end' "$tmp/compiled.json")
