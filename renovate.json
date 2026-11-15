@@ -134,7 +134,7 @@
       "enabled": false
     },
     {
-      "description": "cimg/base is the stock image of the stack: its tag (2026.10) is named in the stack files, the tests and the docs. Renovate refreshes the digest of the tag; a new tag is a deliberate change of every file that names it.",
+      "description": "cimg/base is the stock image of the stack: its tag (2026.11) is named in the stack files, the tests and the docs. Renovate refreshes the digest of the tag; a new tag is a deliberate change of every file that names it.",
       "matchDepNames": ["cimg/base"],
       "matchUpdateTypes": ["major", "minor", "patch"],
       "enabled": false

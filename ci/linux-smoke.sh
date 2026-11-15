@@ -23,7 +23,7 @@ set -uo pipefail
 here=$(cd "$(dirname "$0")" && pwd)
 repo=$(cd "${here}/.." && pwd)
 setup="${repo}/linux/setup.sh"
-image=${E2E_IMAGE:-cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a}
+image=${E2E_IMAGE:-cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01}
 stack=runners
 work=$(mktemp -d)
 failed=0

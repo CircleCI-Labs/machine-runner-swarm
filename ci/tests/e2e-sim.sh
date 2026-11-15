@@ -20,7 +20,7 @@ set -euo pipefail
 here=$(cd "$(dirname "$0")" && pwd)
 repo=$(cd "${here}/../.." && pwd)
 name="swarm-e2e-sim-$$"
-stock=${E2E_IMAGE:-cimg/base:2026.10@sha256:64becfab2860932391d834a770033665874e287a655dbef26e38df060414a79a}
+stock=${E2E_IMAGE:-cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01}
 dind=${E2E_SIM_DIND_IMAGE:-docker:29.9.0-dind@sha256:0b6d18a4a222e71c88be6034926b4f6cde2fc33c2218643d03ccfddc65995470}
 tmp=$(mktemp -d)
 failed=0
@@ -34,7 +34,7 @@ in_vm() { docker exec "${name}" "$@"; }
 # --- fixtures: a stack with the contract's shape, and a fake runner entrypoint -----------------
 cat > "${tmp}/stack.yaml" <<'YAML'
 x-runner: &runner
-  image: cimg/base:2026.10
+  image: cimg/base:2026.11
   entrypoint: ["/opt/machine-runner-swarm/bin/circleci-runner-entrypoint"]
   user: "0:0"
   volumes:
@@ -61,7 +61,7 @@ services:
     secrets:
       - {source: linux-hardened-token, target: circleci_runner_config.yaml, uid: "2000", gid: "2000", mode: 0400}
   runner-distributor:   # global, like the shipped one: the host script must leave it out of the override and out of the container counts
-    image: cimg/base:2026.10
+    image: cimg/base:2026.11
     command: ["sleep", "3600"]
     deploy: {mode: global}
   linux-java:
@@ -80,7 +80,7 @@ YAML
 mkdir "${tmp}/split"
 cat > "${tmp}/split/stack.yaml" <<'YAML'
 x-runner: &runner
-  image: cimg/base:2026.10
+  image: cimg/base:2026.11
   entrypoint: ["/opt/machine-runner-swarm/bin/circleci-runner-entrypoint"]
   user: "0:0"
   volumes:
@@ -99,7 +99,7 @@ services:
     secrets:
       - {source: linux-default-token, target: circleci_runner_config.yaml, uid: "2000", gid: "2000", mode: 0400}
   runner-distributor:
-    image: cimg/base:2026.10
+    image: cimg/base:2026.11
     command: ["sleep", "3600"]
     deploy: {mode: global}
 secrets:
@@ -107,7 +107,7 @@ secrets:
 YAML
 cat > "${tmp}/split/classes-extra.yaml" <<'YAML'
 x-runner: &runner
-  image: cimg/base:2026.10
+  image: cimg/base:2026.11
   entrypoint: ["/opt/machine-runner-swarm/bin/circleci-runner-entrypoint"]
   user: "0:0"
   volumes:

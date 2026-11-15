@@ -230,7 +230,7 @@ Swarm does not share images between nodes: each node pulls the image of a task f
 
 - Every node must reach the registry of every image that a service on that node uses ([Egress hosts](security.md#egress-hosts)). Your own image must be in a registry that all nodes of its OS can reach ([Images](images.md)).
 - For a private registry, run `docker login` on the manager and deploy with `docker stack deploy --with-registry-auth`.
-- Pin images by digest, for example `cimg/base:2026.10@sha256:<DIGEST>`, so every node runs the same content. Tags such as `21.0` move.
+- Pin images by digest, for example `cimg/base:2026.11@sha256:<DIGEST>`, so every node runs the same content. Tags such as `21.0` move.
 - Pull large images ahead of time (a Windows `servercore` image is about 2.2 GB compressed). Public registries apply pull rate limits: a mirror or an authenticated pull avoids failed pulls.
 - `runner-distributor` runs the stock `alpine:3` image on every Linux node. If the nodes cannot reach Docker Hub, mirror it and change `image` in your copy of the stack file. Copy it with its digest (`docker buildx imagetools create` keeps it), so the pin holds.
 - The token proxy runs from `ccilabs/machine-runner-swarm-proxy`. Mirror it with its signature (`cosign copy`), pin the digest in `MACHINE_RUNNER_SWARM_PROXY_IMAGE`, and keep that in your deploy file ([Upgrade the token proxy](operations.md#upgrade-the-token-proxy)).

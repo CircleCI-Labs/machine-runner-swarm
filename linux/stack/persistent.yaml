@@ -20,7 +20,7 @@
 
 services:
   linux-persistent:
-    image: cimg/base:2026.10
+    image: cimg/base:2026.11
     user: "0"
     entrypoint: ["/circleci-runner-entrypoint"]
     configs:

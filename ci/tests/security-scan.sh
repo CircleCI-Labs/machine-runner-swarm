@@ -46,7 +46,7 @@ check "infra failing (CRITICAL) unchanged" "0" "${infra_failing}"
 
 infra_failing=0 infra_unscannable=0
 rc=0
-scan_image "cimg/base:2026.10@sha256:0000000000000000000000000000000000000000000000000000000000000002" report || rc=$?
+scan_image "cimg/base:2026.11@sha256:0000000000000000000000000000000000000000000000000000000000000002" report || rc=$?
 check "report-only unscannable returns 0" 0 "${rc}"
 check "report-only does not increment infra unscannable" "0" "${infra_unscannable}"
 
