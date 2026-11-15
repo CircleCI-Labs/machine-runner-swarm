@@ -60,7 +60,7 @@ version: 2.1
 setup: true
 
 orbs:
-  smarter: cci-labs/smarter-workflows@0.1.0
+  smarter: cci-labs/smarter-workflows@0.2.0
 
 parameters:
   full:
@@ -120,7 +120,7 @@ jobs:
               --changed /tmp/setup/changed.txt --releasable "$(cat /tmp/setup/releasable.txt)" > /tmp/setup/parameters.json
             cat /tmp/setup/parameters.json
       - smarter/install:
-          version: v0.1.0
+          version: v0.2.0
       - run:
           name: Smarter Workflows diff base (impact map cache key)
           command: |
@@ -137,6 +137,10 @@ jobs:
           command: |
             set -eu
             mkdir -p /tmp/smarter
+            # Linux e2e hosts use a parameterised executor; probes use machine: true on the
+            # self-hosted class (docs/ci.md). They sit inside job groups, so tracing stays
+            # opaque at the workflow entry unless the planner can see the job template name.
+            # Windows e2e, windows-swarm and proxy-image-windows are never listed here.
             set -- plan \
               --config .circleci/continue.yml \
               --workflow ci \
@@ -144,7 +148,8 @@ jobs:
               --mode shadow \
               --parameters /tmp/setup/parameters.json \
               --out /tmp/smarter/continue.yml \
-              --report-dir /tmp/smarter/plan
+              --report-dir /tmp/smarter/plan \
+              --trace-jobs 'e2e-linux-host,e2e-linux-probe,e2e-linux-arm64-host'
             if [ -n "$SMARTER_ARG_TRIGGER_TYPE" ]; then
               set -- "$@" --trigger-type "$SMARTER_ARG_TRIGGER_TYPE"
             fi
