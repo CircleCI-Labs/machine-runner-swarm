@@ -52,7 +52,15 @@ version: 2.1
 # when no runner exists. Halting a guard job ends only that job, so the probes
 # would still queue. The decision therefore has to be made before the e2e
 # workflow is compiled.
+#
+# After ci/setup-gate.sh writes /tmp/setup/parameters.json, the Smarter Workflows planner
+# runs in shadow mode on the `ci` workflow: it stores a plan report and continues with the
+# same jobs the gate chose. If the planner fails, the job falls back to the original
+# continuation call (docs/ci.md, "Smarter Workflows shadow mode").
 setup: true
+
+orbs:
+  smarter: cci-labs/smarter-workflows@0.1.0
 
 parameters:
   full:
@@ -111,24 +119,77 @@ jobs:
             ci/setup-gate.sh --e2e "<< parameters.e2e >>" --full "<< pipeline.parameters.full >>" --scan "<< parameters.scan >>" \
               --changed /tmp/setup/changed.txt --releasable "$(cat /tmp/setup/releasable.txt)" > /tmp/setup/parameters.json
             cat /tmp/setup/parameters.json
+      - smarter/install:
+          version: v0.1.0
       - run:
-          name: Continue the pipeline with .circleci/continue.yml
+          name: Smarter Workflows diff base (impact map cache key)
           command: |
-            # Same API call as the circleci/continuation orb, without printing the
-            # request body (it carries the continuation key).
-            : "${CIRCLE_CONTINUATION_KEY:?setup workflows are not enabled for this project}"
-            jq -n \
-              --arg key "${CIRCLE_CONTINUATION_KEY}" \
-              --rawfile config .circleci/continue.yml \
-              --slurpfile params /tmp/setup/parameters.json \
-              '{"continuation-key": $key, "configuration": $config, "parameters": $params[0]}' \
-              > /tmp/setup/continue.json
-            code=$(curl -sS --retry 5 --retry-connrefused -o /tmp/setup/response.json -w '%{http_code}' \
-              -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' \
-              --data @/tmp/setup/continue.json https://circleci.com/api/v2/pipeline/continue)
-            rm -f /tmp/setup/continue.json
-            cat /tmp/setup/response.json; echo
-            [ "${code}" = 200 ]
+            set -eu
+            /tmp/smarter/bin/circleci-smarter base --default-branch main > .smarter-key
+      - restore_cache:
+          keys:
+            - smarter-impact-v1-{{ checksum ".smarter-key" }}
+            - smarter-impact-v1-
+      - run:
+          name: Smarter Workflows plan (shadow; the setup gate still decides what runs)
+          environment:
+            SMARTER_ARG_TRIGGER_TYPE: "<< pipeline.trigger.type >>"
+          command: |
+            set -eu
+            mkdir -p /tmp/smarter
+            set -- plan \
+              --config .circleci/continue.yml \
+              --workflow ci \
+              --default-branch main \
+              --mode shadow \
+              --parameters /tmp/setup/parameters.json \
+              --out /tmp/smarter/continue.yml \
+              --report-dir /tmp/smarter/plan
+            if [ -n "$SMARTER_ARG_TRIGGER_TYPE" ]; then
+              set -- "$@" --trigger-type "$SMARTER_ARG_TRIGGER_TYPE"
+            fi
+            if /tmp/smarter/bin/circleci-smarter "$@"; then
+              echo true > /tmp/setup/smarter-ok.txt
+            else
+              echo "smarter: plan failed; the setup job falls back to the hand-written continuation"
+              echo false > /tmp/setup/smarter-ok.txt
+            fi
+      - store_artifacts:
+          path: /tmp/smarter/plan
+          destination: smarter-plan
+      - run:
+          name: Continue the pipeline (.circleci/continue.yml via the planner, or the hand-written gate)
+          command: |
+            set -eu
+            # Same API call as the circleci/continuation orb, without printing the request body
+            # (it carries the continuation key). Used when the planner did not run or failed.
+            continue_hand_written() {
+              : "${CIRCLE_CONTINUATION_KEY:?setup workflows are not enabled for this project}"
+              jq -n \
+                --arg key "${CIRCLE_CONTINUATION_KEY}" \
+                --rawfile config .circleci/continue.yml \
+                --slurpfile params /tmp/setup/parameters.json \
+                '{"continuation-key": $key, "configuration": $config, "parameters": $params[0]}' \
+                > /tmp/setup/continue.json
+              code=$(curl -sS --retry 5 --retry-connrefused -o /tmp/setup/response.json -w '%{http_code}' \
+                -X POST -H 'Content-Type: application/json' -H 'Accept: application/json' \
+                --data @/tmp/setup/continue.json https://circleci.com/api/v2/pipeline/continue)
+              rm -f /tmp/setup/continue.json
+              cat /tmp/setup/response.json
+              echo
+              [ "${code}" = 200 ]
+            }
+            if [ "$(cat /tmp/setup/smarter-ok.txt 2>/dev/null)" = true ] \
+              && [ -f /tmp/smarter/continue.yml ] \
+              && [ -f /tmp/smarter/plan/parameters.json ]; then
+              if /tmp/smarter/bin/circleci-smarter continue \
+                --config /tmp/smarter/continue.yml \
+                --parameters /tmp/smarter/plan/parameters.json; then
+                exit 0
+              fi
+              echo "smarter: continue failed; falling back to the hand-written continuation"
+            fi
+            continue_hand_written
 
 workflows:
   setup-e2e:
