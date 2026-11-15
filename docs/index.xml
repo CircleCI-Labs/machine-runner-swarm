@@ -736,7 +736,7 @@ data-copied-label="Copied!"
 &lt;tr&gt;
 &lt;td&gt;every pipeline&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;lint-circleci&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cimg/base:2026.10&lt;/code&gt;, CircleCI CLI 1.4.0&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cimg/base:2026.11&lt;/code&gt;, CircleCI CLI 1.4.0&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;circleci config validate&lt;/code&gt; on both files, &lt;code&gt;circleci config process&lt;/code&gt; with every parameter on (&lt;code&gt;validate&lt;/code&gt; alone does not compile the filtered jobs), the table tests of &lt;a href="#running-the-checks-locally"&gt;Running the checks locally&lt;/a&gt;, a check that every &lt;code&gt;ci&lt;/code&gt; job besides the lint jobs and &lt;code&gt;docs-site-build&lt;/code&gt; is off for a docs-only change, and a check that &lt;code&gt;release&lt;/code&gt; requires every other job&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -766,7 +766,7 @@ data-copied-label="Copied!"
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;pull-request&lt;/code&gt;, optional for the release&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;docs-site-comment&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cimg/base:2026.10&lt;/code&gt;, small, context &lt;code&gt;scalable-machine-runner-pr-comments&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cimg/base:2026.11&lt;/code&gt;, small, context &lt;code&gt;scalable-machine-runner-pr-comments&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Posts or updates one preview comment (&lt;code&gt;site/preview-comment.sh&lt;/code&gt;)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -784,7 +784,7 @@ data-copied-label="Copied!"
 &lt;tr&gt;
 &lt;td&gt;not docs-only&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;signing-rehearsal&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cimg/base:2026.10&lt;/code&gt; and &lt;code&gt;registry:2&lt;/code&gt; (by digest), small, no context&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cimg/base:2026.11&lt;/code&gt; and &lt;code&gt;registry:2&lt;/code&gt; (by digest), small, no context&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;ci/proxy-image.sh rehearse&lt;/code&gt;: signs a throwaway image in a local registry with the job&amp;rsquo;s OIDC token, verifies it with the function &lt;code&gt;main&lt;/code&gt; uses for &lt;code&gt;refs/heads/&amp;lt;branch&amp;gt;&lt;/code&gt;, and checks that another ref is refused (&lt;a href="https://circleci-labs.github.io/machine-runner-swarm/docs/contribute/releasing/#the-signing-rehearsal"&gt;The signing rehearsal&lt;/a&gt;)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -814,13 +814,13 @@ data-copied-label="Copied!"
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;publish&lt;/code&gt; (main)&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;proxy-image-publish&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cimg/base:2026.10&lt;/code&gt;, small, same context, &lt;code&gt;serial-group&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cimg/base:2026.11&lt;/code&gt;, small, same context, &lt;code&gt;serial-group&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;The manifest list tagged &lt;code&gt;sha-&amp;lt;12&amp;gt;&lt;/code&gt; only, the signatures (checked for &lt;code&gt;refs/heads/main&lt;/code&gt;), the check of every platform, and the &lt;a href="#deploys"&gt;deploy&lt;/a&gt; of &lt;code&gt;token-proxy-image&lt;/code&gt;. Skipped with a message without the credentials&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;release&lt;/code&gt;, optional for the release&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;proxy-image-edge&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cimg/base:2026.10&lt;/code&gt;, small, same context, &lt;code&gt;serial-group&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cimg/base:2026.11&lt;/code&gt;, small, same context, &lt;code&gt;serial-group&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;The last job: after &lt;code&gt;proxy-image-publish&lt;/code&gt;, the four &lt;code&gt;linux-swarm&lt;/code&gt; jobs and every e2e group, it checks the signature of &lt;code&gt;sha-&amp;lt;12&amp;gt;&lt;/code&gt; and tags it &lt;code&gt;edge&lt;/code&gt; (&lt;code&gt;ci/proxy-image.sh edge&lt;/code&gt;)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -892,7 +892,7 @@ data-copied-label="Copied!"
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;release&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;release&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cimg/base:2026.10&lt;/code&gt;, contexts &lt;code&gt;scalable-machine-runner-release&lt;/code&gt; and &lt;code&gt;scalable-machine-runner-dockerhub&lt;/code&gt;, &lt;code&gt;serial-group&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cimg/base:2026.11&lt;/code&gt;, contexts &lt;code&gt;scalable-machine-runner-release&lt;/code&gt; and &lt;code&gt;scalable-machine-runner-dockerhub&lt;/code&gt;, &lt;code&gt;serial-group&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href="#release"&gt;Release&lt;/a&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1050,7 +1050,7 @@ data-copied-label="Copied!"
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;release&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cimg/base:2026.10&lt;/code&gt;, contexts &lt;code&gt;scalable-machine-runner-release&lt;/code&gt; and &lt;code&gt;scalable-machine-runner-dockerhub&lt;/code&gt;, &lt;code&gt;serial-group&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cimg/base:2026.11&lt;/code&gt;, contexts &lt;code&gt;scalable-machine-runner-release&lt;/code&gt; and &lt;code&gt;scalable-machine-runner-dockerhub&lt;/code&gt;, &lt;code&gt;serial-group&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;ci/release.sh&lt;/code&gt;: the Swarm config name check, version, notes, the digest of the token proxy image pinned in the stack files, bundles, &lt;code&gt;SHA256SUMS&lt;/code&gt;, keyless signature, the signature check and release tags of the image, and the GitHub release. Without &lt;code&gt;GITHUB_TOKEN&lt;/code&gt; or the Docker Hub credentials it stops before publishing&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1733,7 +1733,7 @@ data-copied-label="Copied!"
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;image&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cimg/base:2026.10&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cimg/base:2026.11&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Your image, pinned by digest (&lt;a href="https://circleci-labs.github.io/machine-runner-swarm/docs/configure/images/"&gt;Images&lt;/a&gt;)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1846,7 +1846,7 @@ data-copied-label="Copied!"
 &lt;/div&gt;
 &lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code"&gt;
 &lt;div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ID NAME MODE REPLICAS IMAGE
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;... runners_linux-default replicated 2/2 cimg/base:2026.10
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;... runners_linux-default replicated 2/2 cimg/base:2026.11
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;... runners_runner-distributor global 1/1 alpine:3
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;... runners_token-proxy replicated 1/1 ccilabs/machine-runner-swarm-proxy:...&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="hextra-code-copy-btn-container hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0"&gt;
 &lt;button
@@ -4789,7 +4789,7 @@ data-copied-label="Copied!"
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;linux-default&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;runners.yaml&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cimg/base:2026.10&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cimg/base:2026.11&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;linux-java&lt;/code&gt;&lt;/td&gt;
@@ -4799,7 +4799,7 @@ data-copied-label="Copied!"
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;linux-hardened&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;classes-extra.yaml&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cimg/base:2026.10&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cimg/base:2026.11&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -4866,7 +4866,7 @@ data-copied-label="Copied!"
 &lt;h3 data-hextra-search-id="pin-the-image"&gt;Pin the image&lt;span class="hx:absolute hx:-mt-20" id="pin-the-image"&gt;&lt;/span&gt;
 &lt;a href="#pin-the-image" class="subheading-anchor" aria-label="Permalink for this section"&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Tags such as &lt;code&gt;21.0&lt;/code&gt; move when the publisher rebuilds the image. Pin production services by digest and update them on a schedule:&lt;/p&gt;
 &lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code"&gt;
-&lt;div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;cimg/base:2026.10@sha256:&amp;lt;DIGEST&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="hextra-code-copy-btn-container hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0"&gt;
+&lt;div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;cimg/base:2026.11@sha256:&amp;lt;DIGEST&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="hextra-code-copy-btn-container hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0"&gt;
 &lt;button
 class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
 title="Copy code"
@@ -4879,7 +4879,7 @@ data-copied-label="Copied!"
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code"&gt;
-&lt;div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;docker buildx imagetools inspect cimg/base:2026.10&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="hextra-code-copy-btn-container hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0"&gt;
+&lt;div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;docker buildx imagetools inspect cimg/base:2026.11&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="hextra-code-copy-btn-container hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0"&gt;
 &lt;button
 class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
 title="Copy code"
@@ -4994,7 +4994,7 @@ data-copied-label="Copied!"
 &lt;a href="#private-certificate-authorities" class="subheading-anchor" aria-label="Permalink for this section"&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The runner, its task agent, and the job steps read the certificate store of the image of their class. To trust a private authority (an inspecting proxy, your CircleCI server, a private registry, or a package host), put it in an image of your own. The stack files need no change. This repository does not test it.&lt;/p&gt;
 &lt;p&gt;On Linux, add the certificate to the system store, in a Dockerfile on top of your image:&lt;/p&gt;
 &lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code"&gt;
-&lt;div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-dockerfile" data-lang="dockerfile"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;cimg/base:2026.10@sha256:&amp;lt;DIGEST&lt;/span&gt;&amp;gt;&lt;span class="err"&gt;
+&lt;div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-dockerfile" data-lang="dockerfile"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;cimg/base:2026.11@sha256:&amp;lt;DIGEST&lt;/span&gt;&amp;gt;&lt;span class="err"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;USER&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;root&lt;/span&gt;&lt;span class="err"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;COPY&lt;/span&gt; my-ca.crt /usr/local/share/ca-certificates/my-ca.crt&lt;span class="err"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;RUN&lt;/span&gt; update-ca-certificates&lt;span class="err"&gt;
@@ -5784,7 +5784,7 @@ data-copied-label="Copied!"
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;cimg/base&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;2026.10&lt;/td&gt;
+&lt;td&gt;2026.11&lt;/td&gt;
 &lt;td&gt;The digest in &lt;code&gt;.circleci/continue.yml&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -8343,7 +8343,7 @@ data-copied-label="Copied!"
 &lt;ul&gt;
 &lt;li&gt;Every node must reach the registry of every image that a service on that node uses (&lt;a href="https://circleci-labs.github.io/machine-runner-swarm/docs/security/#egress-hosts"&gt;Egress hosts&lt;/a&gt;). Your own image must be in a registry that all nodes of its OS can reach (&lt;a href="https://circleci-labs.github.io/machine-runner-swarm/docs/configure/images/"&gt;Images&lt;/a&gt;).&lt;/li&gt;
 &lt;li&gt;For a private registry, run &lt;code&gt;docker login&lt;/code&gt; on the manager and deploy with &lt;code&gt;docker stack deploy --with-registry-auth&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Pin images by digest, for example &lt;code&gt;cimg/base:2026.10@sha256:&amp;lt;DIGEST&amp;gt;&lt;/code&gt;, so every node runs the same content. Tags such as &lt;code&gt;21.0&lt;/code&gt; move.&lt;/li&gt;
+&lt;li&gt;Pin images by digest, for example &lt;code&gt;cimg/base:2026.11@sha256:&amp;lt;DIGEST&amp;gt;&lt;/code&gt;, so every node runs the same content. Tags such as &lt;code&gt;21.0&lt;/code&gt; move.&lt;/li&gt;
 &lt;li&gt;Pull large images ahead of time (a Windows &lt;code&gt;servercore&lt;/code&gt; image is about 2.2 GB compressed). Public registries apply pull rate limits: a mirror or an authenticated pull avoids failed pulls.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;runner-distributor&lt;/code&gt; runs the stock &lt;code&gt;alpine:3&lt;/code&gt; image on every Linux node. If the nodes cannot reach Docker Hub, mirror it and change &lt;code&gt;image&lt;/code&gt; in your copy of the stack file. Copy it with its digest (&lt;code&gt;docker buildx imagetools create&lt;/code&gt; keeps it), so the pin holds.&lt;/li&gt;
 &lt;li&gt;The token proxy runs from &lt;code&gt;ccilabs/machine-runner-swarm-proxy&lt;/code&gt;. Mirror it with its signature (&lt;code&gt;cosign copy&lt;/code&gt;), pin the digest in &lt;code&gt;MACHINE_RUNNER_SWARM_PROXY_IMAGE&lt;/code&gt;, and keep that in your deploy file (&lt;a href="https://circleci-labs.github.io/machine-runner-swarm/docs/operate/operations/#upgrade-the-token-proxy"&gt;Upgrade the token proxy&lt;/a&gt;).&lt;/li&gt;

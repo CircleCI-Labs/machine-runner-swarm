@@ -301,7 +301,7 @@ data-copied-label="Copied!"
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;image&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cimg/base:2026.10&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cimg/base:2026.11&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Your image, pinned by digest (&lt;a href="https://circleci-labs.github.io/machine-runner-swarm/docs/configure/images/"&gt;Images&lt;/a&gt;)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -414,7 +414,7 @@ data-copied-label="Copied!"
 &lt;/div&gt;
 &lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code"&gt;
 &lt;div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ID NAME MODE REPLICAS IMAGE
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;... runners_linux-default replicated 2/2 cimg/base:2026.10
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;... runners_linux-default replicated 2/2 cimg/base:2026.11
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;... runners_runner-distributor global 1/1 alpine:3
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;... runners_token-proxy replicated 1/1 ccilabs/machine-runner-swarm-proxy:...&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="hextra-code-copy-btn-container hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0"&gt;
 &lt;button
@@ -1955,7 +1955,7 @@ data-copied-label="Copied!"
 &lt;ul&gt;
 &lt;li&gt;Every node must reach the registry of every image that a service on that node uses (&lt;a href="https://circleci-labs.github.io/machine-runner-swarm/docs/security/#egress-hosts"&gt;Egress hosts&lt;/a&gt;). Your own image must be in a registry that all nodes of its OS can reach (&lt;a href="https://circleci-labs.github.io/machine-runner-swarm/docs/configure/images/"&gt;Images&lt;/a&gt;).&lt;/li&gt;
 &lt;li&gt;For a private registry, run &lt;code&gt;docker login&lt;/code&gt; on the manager and deploy with &lt;code&gt;docker stack deploy --with-registry-auth&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Pin images by digest, for example &lt;code&gt;cimg/base:2026.10@sha256:&amp;lt;DIGEST&amp;gt;&lt;/code&gt;, so every node runs the same content. Tags such as &lt;code&gt;21.0&lt;/code&gt; move.&lt;/li&gt;
+&lt;li&gt;Pin images by digest, for example &lt;code&gt;cimg/base:2026.11@sha256:&amp;lt;DIGEST&amp;gt;&lt;/code&gt;, so every node runs the same content. Tags such as &lt;code&gt;21.0&lt;/code&gt; move.&lt;/li&gt;
 &lt;li&gt;Pull large images ahead of time (a Windows &lt;code&gt;servercore&lt;/code&gt; image is about 2.2 GB compressed). Public registries apply pull rate limits: a mirror or an authenticated pull avoids failed pulls.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;runner-distributor&lt;/code&gt; runs the stock &lt;code&gt;alpine:3&lt;/code&gt; image on every Linux node. If the nodes cannot reach Docker Hub, mirror it and change &lt;code&gt;image&lt;/code&gt; in your copy of the stack file. Copy it with its digest (&lt;code&gt;docker buildx imagetools create&lt;/code&gt; keeps it), so the pin holds.&lt;/li&gt;
 &lt;li&gt;The token proxy runs from &lt;code&gt;ccilabs/machine-runner-swarm-proxy&lt;/code&gt;. Mirror it with its signature (&lt;code&gt;cosign copy&lt;/code&gt;), pin the digest in &lt;code&gt;MACHINE_RUNNER_SWARM_PROXY_IMAGE&lt;/code&gt;, and keep that in your deploy file (&lt;a href="https://circleci-labs.github.io/machine-runner-swarm/docs/operate/operations/#upgrade-the-token-proxy"&gt;Upgrade the token proxy&lt;/a&gt;).&lt;/li&gt;
