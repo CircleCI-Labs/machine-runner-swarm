@@ -93,6 +93,20 @@ A pipeline of `main` or `smr-swarm/*` started through the API, or an SSH rerun o
 
 A guard job that runs `circleci-agent step halt` is not enough. The probe jobs target a self-hosted runner class and queue until a runner claims them, which can take days. Halting a guard job ends only that job, so the probes would still be scheduled. The decision has to happen before the e2e jobs are compiled into the workflow. The setup job calls the continuation API itself instead of using the `circleci/continuation` orb, because the orb prints the request body, and the continuation key with it, into a public log.
 
+### Smarter Workflows shadow mode
+
+After [`ci/setup-gate.sh`](../ci/setup-gate.sh) writes the continuation parameters, the setup job runs the [Smarter Workflows](https://github.com/CircleCI-Labs/smarter-workflows) planner in **shadow** mode. Shadow mode never skips a job beyond what the gate already decided: it plans the `ci` workflow, compares that plan to the gate, and still continues the pipeline with the same suite flags. A push to `main` that is a full run for the planner also adds trace steps on Linux jobs, runs `smarter-impact-map`, and ends `ci` at `smarter-gate`.
+
+The job installs release `v0.1.0` of `circleci-smarter` through the orb `cci-labs/smarter-workflows@0.1.0`, restores the impact map cache (`smarter-impact-v1-`), and stores the plan under the job artifact `smarter-plan` (`plan.json`, `plan.md`, and `parameters.json` for the continuation call). If install, `plan`, or `continue` fails, the job falls back to the hand-written continuation of `.circleci/continue.yml` with `/tmp/setup/parameters.json`, so CI is never worse than before shadow mode.
+
+The continuation catalog has three workflows. The planner is invoked with `--workflow ci`, so only `ci` is impact-planned. With pipeline parameters, CircleCI still evaluates each workflow’s own `when` clause at continuation time:
+
+- **`ci`** — planned; when `security-scan` is `true`, the workflow’s `when: not security-scan` is false and the planner records that `ci` does not run.
+- **`docs-site`** — not impact-planned; it stays in the continuation config and runs on `main` when `security-scan` is false (`docs-site-publish` is further limited to `main`).
+- **`security-scan`** — not impact-planned; it runs only when `security-scan` is `true`.
+
+To turn shadow mode off, remove the `smarter/install` step and the three `smarter:` run steps in `.circleci/config.yml`, restore the single hand-written continuation step that calls the CircleCI API, and drop the `orbs:` block.
+
 ## Maintainer tasks
 
 | Task | How |
