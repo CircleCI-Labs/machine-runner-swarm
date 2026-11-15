@@ -165,7 +165,7 @@ Review these settings first ([Resource classes](resource-classes.md) has the det
 | Setting | Default | Change it to |
 |---|---|---|
 | Service name | `linux-default` | Your resource class name |
-| `image` | `cimg/base:2026.10` | Your image, pinned by digest ([Images](images.md)) |
+| `image` | `cimg/base:2026.11` | Your image, pinned by digest ([Images](images.md)) |
 | `deploy.replicas` | 2 | The number of concurrent jobs you need |
 | `deploy.resources` | 2 CPUs and 4 GB | The size of one runner. Limits and reservations are equal |
 | `placement.constraints` | `node.platform.os == linux` | Add architecture or zone constraints |
@@ -211,7 +211,7 @@ Other distributor settings, such as a floating version like `3.1` (weaker: the d
 
    ```text
    ID             NAME                        MODE         REPLICAS   IMAGE
-   ...            runners_linux-default       replicated   2/2        cimg/base:2026.10
+   ...            runners_linux-default       replicated   2/2        cimg/base:2026.11
    ...            runners_runner-distributor  global       1/1        alpine:3
    ...            runners_token-proxy         replicated   1/1        ccilabs/machine-runner-swarm-proxy:...
    ```

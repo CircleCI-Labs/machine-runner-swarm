@@ -103,7 +103,7 @@ services:
 
   linux-microvm:
     <<: *runner
-    image: cimg/base:2026.10
+    image: cimg/base:2026.11
     hostname: "{{.Node.Hostname}}-linux-microvm-{{.Task.Slot}}"
     environment:
       <<: *env
@@ -128,7 +128,7 @@ services:
   # and vanish with the job.
   linux-microvm-docker:
     <<: *runner
-    image: cimg/base:2026.10   # includes dockerd, containerd, runc and iptables
+    image: cimg/base:2026.11   # includes dockerd, containerd, runc and iptables
     hostname: "{{.Node.Hostname}}-linux-microvm-docker-{{.Task.Slot}}"
     environment:
       <<: *env
@@ -190,7 +190,7 @@ services:
   # in "Created" for good. One sleeping container on both networks keeps them up, so a class container always joins an existing overlay.
   # It costs one small VM on every microVM node.
   microvm-netkeep:
-    image: cimg/base:2026.10   # already on the node for the classes
+    image: cimg/base:2026.11   # already on the node for the classes
     command: ["sleep", "infinity"]
     init: true
     user: "65534"

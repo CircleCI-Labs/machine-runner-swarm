@@ -16,9 +16,9 @@ The image contains none of the runner, so a new runner version needs no image re
 
 | Service | File | Image |
 |---|---|---|
-| `linux-default` | `runners.yaml` | `cimg/base:2026.10` |
+| `linux-default` | `runners.yaml` | `cimg/base:2026.11` |
 | `linux-java` | `classes-extra.yaml` | `cimg/openjdk:21.0` |
-| `linux-hardened` | `classes-extra.yaml` | `cimg/base:2026.10` |
+| `linux-hardened` | `classes-extra.yaml` | `cimg/base:2026.11` |
 
 ### What an image needs
 
@@ -48,11 +48,11 @@ The job user is `circleci` by default. Set `MACHINE_RUNNER_SWARM_JOB_USER` to an
 Tags such as `21.0` move when the publisher rebuilds the image. Pin production services by digest and update them on a schedule:
 
 ```yaml
-image: cimg/base:2026.10@sha256:<DIGEST>
+image: cimg/base:2026.11@sha256:<DIGEST>
 ```
 
 ```bash
-docker buildx imagetools inspect cimg/base:2026.10
+docker buildx imagetools inspect cimg/base:2026.11
 ```
 
 ## Linux: bring your own image
@@ -127,7 +127,7 @@ The runner, its task agent, and the job steps read the certificate store of the 
 On Linux, add the certificate to the system store, in a Dockerfile on top of your image:
 
 ```dockerfile
-FROM cimg/base:2026.10@sha256:<DIGEST>
+FROM cimg/base:2026.11@sha256:<DIGEST>
 USER root
 COPY my-ca.crt /usr/local/share/ca-certificates/my-ca.crt
 RUN update-ca-certificates
