@@ -264,7 +264,7 @@ Rerunning is safe. Before it publishes, the job looks for a release tag at its c
 | crane | 0.22.1 | `checksums.txt` of the release (the Linux x86_64 archive) |
 | gh | 2.102.0 | `gh_2.102.0_checksums.txt` of the release |
 | Go | 1.27.2 | The download page of go.dev, next to the archive |
-| `cimg/base` | 2026.10 | The digest in `.circleci/continue.yml` |
+| `cimg/base` | 2026.11 | The digest in `.circleci/continue.yml` |
 
 [Renovate](ci.md#pinned-versions) opens a pull request that changes the version only. It has the label `checksum` and fails on the checksum until you replace the SHA-256 value in the same branch. To update a tool by hand, change its version and SHA-256 value together in `install_tools` (cosign and crane: in `ci/tools.sh`), then follow [Try it locally](#try-it-locally). To update the job image, follow [Pinned versions](ci.md#pinned-versions). A Renovate pull request for Go also moves the `golang` and `cimg/go` images, so the release proxy binaries use the same Go as `proxy-test`.
 
