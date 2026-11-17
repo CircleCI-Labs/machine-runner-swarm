@@ -41,8 +41,8 @@ Import-Module (Join-Path $repo 'windows\tests\SwarmTestHelpers.psm1') -Force
 
 # The Nano Server images of the two Windows tags that the proxy image covers, by digest (each tag is an index of one build).
 $bases = @{
-    ltsc2022 = 'mcr.microsoft.com/windows/nanoserver:ltsc2022@sha256:32729e1cdc6718c90952375e9bbae2b2c5d38f41ceb50a693fc2383b76df28fd'
-    ltsc2025 = 'mcr.microsoft.com/windows/nanoserver:ltsc2025@sha256:4d81c65bfec7e1b00e004ba8d7306347a880935179bc20cae1044b5a7d35f789'
+    ltsc2022 = 'mcr.microsoft.com/windows/nanoserver:ltsc2022@sha256:0b85b25c76e25efeb8e5f772d1d44bc24a54e0a8e4917385bc810a847952cdea'
+    ltsc2025 = 'mcr.microsoft.com/windows/nanoserver:ltsc2025@sha256:5c42e42b31816a3a7619cb71b4f14353793a47293e198dbde8fe4fce2c8935cb'
 }
 
 function Write-Step([string] $Message) { Write-Host ("[proxy-image {0}] {1}" -f (Get-Date).ToUniversalTime().ToString('HH:mm:ss'), $Message) }
