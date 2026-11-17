@@ -14,7 +14,9 @@
   "semanticCommits": "enabled",
   "semanticCommitType": "ci",
   "semanticCommitScope": "deps",
-  "dependencyDashboard": true,
+  "dependencyDashboard": {
+    "enabled": true
+  },
   "customManagers": [
     {
       "customType": "regex",
