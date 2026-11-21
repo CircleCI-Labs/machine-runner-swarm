@@ -25,7 +25,7 @@ repo_dir=$(cd "$tests_dir/../.." && pwd)
 stack_dir=$repo_dir/linux/stack
 # The tag stays for the reader, the digest of the multi-architecture index is what runs (docker buildx imagetools inspect <tag> prints it):
 # a test must not change because a publisher re-pushed a tag.
-DIND_IMAGE=${SWARM_TEST_DIND_IMAGE:-docker:29-dind@sha256:0b6d18a4a222e71c88be6034926b4f6cde2fc33c2218643d03ccfddc65995470}
+DIND_IMAGE=${SWARM_TEST_DIND_IMAGE:-docker:29-dind@sha256:4bbc7223f81db790097c6dea42fb93e05b8fead4f0431fbe6ccaba6e8473201c}
 CIMG_IMAGE=${SWARM_TEST_CIMG_IMAGE:-cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01}
 cache_dir=${SWARM_TEST_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/swarm-tests}
 BASE_SERVICES=(linux-default)   # the runner class of runners.yaml (runner-distributor and token-proxy are the other services); classes-extra.yaml adds linux-java and linux-hardened
