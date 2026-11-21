@@ -21,7 +21,7 @@ here=$(cd "$(dirname "$0")" && pwd)
 repo=$(cd "${here}/../.." && pwd)
 name="swarm-e2e-sim-$$"
 stock=${E2E_IMAGE:-cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01}
-dind=${E2E_SIM_DIND_IMAGE:-docker:29.9.0-dind@sha256:0b6d18a4a222e71c88be6034926b4f6cde2fc33c2218643d03ccfddc65995470}
+dind=${E2E_SIM_DIND_IMAGE:-docker:29.10.0-dind@sha256:4bbc7223f81db790097c6dea42fb93e05b8fead4f0431fbe6ccaba6e8473201c}
 tmp=$(mktemp -d)
 failed=0
 

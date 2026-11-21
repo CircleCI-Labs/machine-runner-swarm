@@ -39,14 +39,14 @@ infra_n=0 infra_failing=0 infra_unscannable=0
 # shellcheck disable=SC2034  # scan_image updates the counters that scan_images uses
 infra_high=0 report_n=0 report_crit=0 report_high=0
 rc=0
-scan_image "alpine:3.24@sha256:0000000000000000000000000000000000000000000000000000000000000001" infra || rc=$?
+scan_image "alpine:3.24@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf" infra || rc=$?
 check "infra unscannable returns 1" 1 "${rc}"
 check "infra unscannable counted" "1" "${infra_unscannable}"
 check "infra failing (CRITICAL) unchanged" "0" "${infra_failing}"
 
 infra_failing=0 infra_unscannable=0
 rc=0
-scan_image "cimg/base:2026.11@sha256:0000000000000000000000000000000000000000000000000000000000000002" report || rc=$?
+scan_image "cimg/base:2026.11@sha256:4e57f523172e8f5bbf9cb57393b80c964ac0e6c75ee70ebd8c980d11bb503c01" report || rc=$?
 check "report-only unscannable returns 0" 0 "${rc}"
 check "report-only does not increment infra unscannable" "0" "${infra_unscannable}"
 
